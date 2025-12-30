@@ -1,0 +1,312 @@
+/**
+ * ================================================
+ * RESPONSIVE UTILITIES
+ * ================================================
+ *
+ * Styles optimisés pour mobile, tablette et desktop
+ * Complète les classes Tailwind avec des optimisations custom
+ */
+
+/* ================================================
+   BREAKPOINTS
+   ================================================
+   - Mobile:  < 640px  (sm)
+   - Tablet:  640-1024px (sm-lg)
+   - Desktop: > 1024px  (lg+)
+   ================================================ */
+
+/* ================================================
+   MOBILE OPTIMIZATIONS
+   ================================================ */
+
+/* Mobile: Hide scrollbar but keep functionality */
+@media (max-width: 639px) {
+  .mobile-scroll {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
+  .mobile-scroll::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari, Opera */
+  }
+
+  /* Mobile: Optimize touch targets (minimum 44px) */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Mobile: Better spacing for small screens */
+  .mobile-padding {
+    padding: 1rem;
+  }
+
+  /* Mobile: Reduce large headings */
+  h1 {
+    font-size: 1.75rem !important;
+  }
+
+  h2 {
+    font-size: 1.5rem !important;
+  }
+
+  /* Mobile: Stack cards vertically */
+  .stat-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Mobile: Hide secondary info on small screens */
+  .hide-mobile {
+    display: none !important;
+  }
+
+  /* Mobile: Full width modals */
+  .modal-mobile {
+    width: 95vw !important;
+    max-width: 95vw !important;
+    margin: 0.5rem !important;
+  }
+
+  /* Mobile: Smaller buttons */
+  .btn-mobile {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.875rem !important;
+  }
+
+  /* Mobile: Compact tables */
+  table {
+    font-size: 0.875rem;
+  }
+
+  table th,
+  table td {
+    padding: 0.5rem !important;
+  }
+}
+
+/* ================================================
+   TABLET OPTIMIZATIONS
+   ================================================ */
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  /* Tablet: 2-column grid */
+  .stat-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* Tablet: Medium spacing */
+  .tablet-padding {
+    padding: 1.5rem;
+  }
+}
+
+/* ================================================
+   DESKTOP OPTIMIZATIONS
+   ================================================ */
+
+@media (min-width: 1024px) {
+  /* Desktop: Show all content */
+  .show-desktop {
+    display: block !important;
+  }
+
+  /* Desktop: Hover effects */
+  .hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+                0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+}
+
+/* ================================================
+   SAFE AREA INSETS (for iPhone notch, etc.)
+   ================================================ */
+
+@supports (padding: max(0px)) {
+  .safe-area-inset {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+
+  .safe-area-top {
+    padding-top: max(1rem, env(safe-area-inset-top));
+  }
+
+  .safe-area-bottom {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+}
+
+/* ================================================
+   IMPROVED SCROLLING
+   ================================================ */
+
+/* Smooth scrolling for all browsers */
+* {
+  scroll-behavior: smooth;
+}
+
+/* Better scroll momentum on iOS */
+.scroll-container {
+  -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
+}
+
+/* ================================================
+   ACCESSIBILITY IMPROVEMENTS
+   ================================================ */
+
+/* Focus visible for keyboard navigation */
+*:focus-visible {
+  outline: 2px solid #3B82F6;
+  outline-offset: 2px;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ================================================
+   PRINT OPTIMIZATIONS
+   ================================================ */
+
+@media print {
+  /* Hide navigation and interactive elements */
+  nav,
+  button,
+  .no-print {
+    display: none !important;
+  }
+
+  /* Optimize colors for printing */
+  * {
+    color: black !important;
+    background: white !important;
+  }
+
+  /* Page breaks */
+  .page-break-before {
+    page-break-before: always;
+  }
+
+  .page-break-after {
+    page-break-after: always;
+  }
+
+  .page-break-avoid {
+    page-break-inside: avoid;
+  }
+}
+
+/* ================================================
+   UTILITY CLASSES
+   ================================================ */
+
+/* Truncate text with ellipsis */
+.truncate-2-lines {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.truncate-3-lines {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Card with better shadow */
+.card-shadow {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+              0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.card-shadow-hover:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+              0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Glass morphism effect */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Animated gradient background */
+.gradient-bg-animated {
+  background: linear-gradient(
+    -45deg,
+    #3B82F6,
+    #8B5CF6,
+    #EC4899,
+    #F59E0B
+  );
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Pulse animation for notifications */
+.pulse-notification {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Skeleton loader */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 25%,
+    #e0e0e0 50%,
+    #f0f0f0 75%
+  );
+  background-size: 200% 100%;
+  animation: loading 1.5s ease-in-out infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

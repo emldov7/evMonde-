@@ -1,0 +1,42 @@
+# Framework Web
+fastapi==0.115.0          # Le framework web rapide et moderne
+uvicorn[standard]==0.32.0 # Serveur ASGI pour faire tourner FastAPI
+
+# Base de données
+sqlalchemy==2.0.36        # ORM pour communiquer avec PostgreSQL
+psycopg[binary]==3.3.2    # Driver PostgreSQL v3 (meilleure compatibilité Windows)
+alembic==1.14.0           # Gestion des migrations de base de données
+
+# Validation de données
+pydantic==2.10.3          # Validation et sérialisation des données
+pydantic-settings==2.6.1  # Gestion de la configuration
+email-validator==2.2.0    # Validation des adresses email pour Pydantic
+
+# Authentification & Sécurité
+python-jose[cryptography]==3.3.0  # Création et vérification des JWT tokens
+passlib[bcrypt]==1.7.4            # Hash des mots de passe
+python-multipart==0.0.20          # Pour les formulaires et fichiers
+cryptography==44.0.0              # Chiffrement des données sensibles (infos bancaires)
+
+# Paiements
+stripe==11.2.0            # Intégration Stripe pour les paiements
+
+# Email & SMS
+python-dotenv==1.0.1      # Charger les variables d'environnement (.env)
+emails==0.6               # Envoi d'emails
+twilio==9.3.7             # Envoi de SMS
+
+# QR Code & PDF
+qrcode[pil]==8.0          # Génération de QR codes
+Pillow==11.0.0            # Manipulation d'images
+reportlab==4.2.5          # Génération de PDF
+
+# Utilitaires
+python-dateutil==2.9.0    # Manipulation de dates
+pytz==2024.2              # Gestion des fuseaux horaires
+python-slugify==8.0.1     # Génération de slugs pour URLs
+APScheduler==3.10.4       # Scheduler (rappels automatiques)
+
+# Tests
+pytest==8.3.4             # Framework de tests
+httpx==0.28.1             # Client HTTP pour tester l'API

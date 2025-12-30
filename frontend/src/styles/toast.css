@@ -1,0 +1,319 @@
+/**
+ * ================================================
+ * CUSTOM TOAST STYLES
+ * ================================================
+ *
+ * Styles personnalisés pour les notifications toast
+ * Pour correspondre au design ultra-premium de l'application
+ */
+
+/* ================================================
+   CONTAINER & GLOBAL STYLES
+   ================================================ */
+
+.Toastify__toast-container {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+}
+
+.Toastify__toast {
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1),
+              0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+  font-weight: 500;
+  min-height: 64px;
+  backdrop-filter: blur(10px);
+}
+
+.Toastify__toast-body {
+  padding: 0;
+  margin: 0;
+}
+
+.Toastify__close-button {
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.Toastify__close-button:hover {
+  opacity: 1;
+}
+
+/* ================================================
+   SUCCESS NOTIFICATIONS (Vert)
+   ================================================ */
+
+.toast-success {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  color: white;
+  border-left: 4px solid #047857;
+}
+
+.toast-progress-success {
+  background: linear-gradient(90deg, #047857 0%, #065f46 100%);
+}
+
+.Toastify__toast--success {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+}
+
+/* ================================================
+   ERROR NOTIFICATIONS (Rouge)
+   ================================================ */
+
+.toast-error {
+  background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+  color: white;
+  border-left: 4px solid #B91C1C;
+}
+
+.toast-progress-error {
+  background: linear-gradient(90deg, #B91C1C 0%, #991B1B 100%);
+}
+
+.Toastify__toast--error {
+  background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+}
+
+/* ================================================
+   WARNING NOTIFICATIONS (Orange/Jaune)
+   ================================================ */
+
+.toast-warning {
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  color: white;
+  border-left: 4px solid #B45309;
+}
+
+.toast-progress-warning {
+  background: linear-gradient(90deg, #B45309 0%, #92400E 100%);
+}
+
+.Toastify__toast--warning {
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+}
+
+/* ================================================
+   INFO NOTIFICATIONS (Bleu)
+   ================================================ */
+
+.toast-info {
+  background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+  color: white;
+  border-left: 4px solid #1D4ED8;
+}
+
+.toast-progress-info {
+  background: linear-gradient(90deg, #1D4ED8 0%, #1E40AF 100%);
+}
+
+.Toastify__toast--info {
+  background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+}
+
+/* ================================================
+   LOADING NOTIFICATIONS
+   ================================================ */
+
+.toast-loading {
+  background: linear-gradient(135deg, #6B7280 0%, #4B5563 100%);
+  color: white;
+  border-left: 4px solid #374151;
+}
+
+/* Spinner animation for loading */
+.Toastify__spinner {
+  border-color: rgba(255, 255, 255, 0.2);
+  border-top-color: white;
+}
+
+/* ================================================
+   PROGRESS BAR
+   ================================================ */
+
+.Toastify__progress-bar {
+  height: 4px;
+}
+
+.Toastify__progress-bar--success {
+  background: linear-gradient(90deg, #047857 0%, #065f46 100%);
+}
+
+.Toastify__progress-bar--error {
+  background: linear-gradient(90deg, #B91C1C 0%, #991B1B 100%);
+}
+
+.Toastify__progress-bar--warning {
+  background: linear-gradient(90deg, #B45309 0%, #92400E 100%);
+}
+
+.Toastify__progress-bar--info {
+  background: linear-gradient(90deg, #1D4ED8 0%, #1E40AF 100%);
+}
+
+/* ================================================
+   ANIMATIONS
+   ================================================ */
+
+/* Slide in from right */
+@keyframes toastSlideIn {
+  from {
+    transform: translate3d(110%, 0, 0);
+    opacity: 0;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+/* Slide out to right */
+@keyframes toastSlideOut {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(110%, 0, 0);
+    opacity: 0;
+  }
+}
+
+.Toastify__toast--top-right {
+  animation: toastSlideIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.Toastify__toast--top-right.Toastify__toast--close {
+  animation: toastSlideOut 0.3s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+}
+
+/* ================================================
+   MOBILE OPTIMIZATIONS
+   ================================================ */
+
+@media only screen and (max-width: 480px) {
+  .Toastify__toast-container {
+    width: 100vw;
+    padding: 0;
+    left: 0;
+    margin: 0;
+    border-radius: 0;
+  }
+
+  .Toastify__toast-container--top-right {
+    top: 0;
+    right: 0;
+  }
+
+  .Toastify__toast {
+    margin-bottom: 0;
+    border-radius: 0;
+    font-size: 13px;
+  }
+
+  /* Full width on mobile */
+  .Toastify__toast-container--top-right,
+  .Toastify__toast-container--bottom-right {
+    right: 0;
+  }
+}
+
+/* ================================================
+   DARK MODE SUPPORT (if needed in future)
+   ================================================ */
+
+@media (prefers-color-scheme: dark) {
+  .Toastify__toast {
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3),
+                0 8px 10px -6px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* ================================================
+   ICONS WITHIN TOASTS
+   ================================================ */
+
+.toast-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+/* ================================================
+   CUSTOM CLASSES FOR SPECIFIC CASES
+   ================================================ */
+
+/* Toast with action button */
+.toast-with-action {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.toast-action-button {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.toast-action-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Toast persistent (doesn't auto-close) */
+.toast-persistent {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+/* ================================================
+   ACCESSIBILITY
+   ================================================ */
+
+.Toastify__toast:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .Toastify__toast {
+    border: 2px solid currentColor;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .Toastify__toast {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .Toastify__progress-bar {
+    animation: none !important;
+  }
+}

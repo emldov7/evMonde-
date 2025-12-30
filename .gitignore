@@ -1,0 +1,54 @@
+# ==========================================
+# GITIGNORE PRINCIPAL - evMonde
+# ==========================================
+
+# Fichiers d'environnement (SECRETS!)
+.env
+*.env
+!.env.example
+.env.local
+.env.*.local
+
+# Environnements virtuels Python
+venv/
+env/
+ENV/
+.venv/
+
+# Node modules
+node_modules/
+
+# Cache Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Build frontend
+frontend/build/
+frontend/dist/
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Uploads (images, QR codes)
+backend/uploads/
+
+# Python distribution
+*.egg-info/
+dist/
+build/
