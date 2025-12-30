@@ -16,7 +16,7 @@ email-validator==2.2.0    # Validation des adresses email pour Pydantic
 python-jose[cryptography]==3.3.0  # Création et vérification des JWT tokens
 passlib[bcrypt]==1.7.4            # Hash des mots de passe
 python-multipart==0.0.20          # Pour les formulaires et fichiers
-cryptography==44.0.0              # Chiffrement des données sensibles (infos bancaires)
+cryptography==44.0.1              # Chiffrement des données sensibles (infos bancaires)
 
 # Paiements
 stripe==11.2.0            # Intégration Stripe pour les paiements
