@@ -119,8 +119,32 @@ def send_registration_confirmation_email(
         bool: True si envoyé, False sinon
     """
 
-    # ÉTAPE 1 : Générer le contenu HTML
+    # ÉTAPE 1 : Construire le bloc HTML pour virtual meeting
+    virtual_meeting_html = ""
+    if virtual_meeting_url:
+        parts = []
+        parts.append('<div style="margin: 20px 0; padding: 20px; background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(147, 51, 234, 0.1) 100%); border-radius: 10px; border: 2px solid #3b82f6;">')
+        parts.append('<h3 style="margin-top: 0; color: #1e40af;">Informations de connexion</h3>')
+        if virtual_platform:
+            parts.append(f"<p><strong>Plateforme :</strong> {virtual_platform.replace('_', ' ').title()}</p>")
+        parts.append(f"<p><strong>Lien de la réunion :</strong><br><a href='{virtual_meeting_url}' style='color: #2563eb; word-break: break-all;'>{virtual_meeting_url}</a></p>")
+        if virtual_meeting_id:
+            parts.append(f"<p><strong>ID de la réunion :</strong> {virtual_meeting_id}</p>")
+        if virtual_meeting_password:
+            parts.append(f"<p><strong>Mot de passe :</strong> <code style='background: #f3f4f6; padding: 4px 8px; border-radius: 4px; font-family: monospace;'>{virtual_meeting_password}</code></p>")
+        if virtual_instructions:
+            parts.append(f"<div style='margin-top: 15px; padding: 12px; background: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 4px;'><p style='margin: 0; color: #92400e;'><strong>Instructions :</strong></p><p style='margin: 8px 0 0; color: #92400e;'>{virtual_instructions}</p></div>")
+        parts.append('</div>')
+        virtual_meeting_html = ''.join(parts)
+
+    # ÉTAPE 2 : Générer le contenu HTML
     html_content = f"""
+    <!DOCTYPE html>
+    <html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Confirmation d'inscription</title>
     <!DOCTYPE html>
     <html lang="fr">
     <head>
@@ -197,11 +221,9 @@ def send_registration_confirmation_email(
             }}
         </style>
     </head>
-    <body>
-        <div class="container">
             <!-- Header -->
             <div class="header">
-                <h1>🎉 Inscription confirmée !</h1>
+                <h1>Inscription confirmée !</h1>
                 <p>Votre billet pour {event_title}</p>
             </div>
 
@@ -219,17 +241,7 @@ def send_registration_confirmation_email(
                 </div>
 
                 <!-- Virtual Meeting Info -->
-                {"""
-                <div style="margin: 20px 0; padding: 20px; background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(147, 51, 234, 0.1) 100%); border-radius: 10px; border: 2px solid #3b82f6;">
-                    <h3 style="margin-top: 0; color: #1e40af;">Informations de connexion</h3>
-                    """ + (f"<p><strong>Plateforme :</strong> {virtual_platform.replace('_', ' ').title()}</p>" if virtual_platform else "") +
-                    (f"<p><strong>Lien de la réunion :</strong><br><a href='{virtual_meeting_url}' style='color: #2563eb; word-break: break-all;'>{virtual_meeting_url}</a></p>" if virtual_meeting_url else "") +
-                    (f"<p><strong>ID de la réunion :</strong> {virtual_meeting_id}</p>" if virtual_meeting_id else "") +
-                    (f"<p><strong>Mot de passe :</strong> <code style='background: #f3f4f6; padding: 4px 8px; border-radius: 4px; font-family: monospace;'>{virtual_meeting_password}</code></p>" if virtual_meeting_password else "") +
-                    (f"<div style='margin-top: 15px; padding: 12px; background: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 4px;'><p style='margin: 0; color: #92400e;'><strong>Instructions :</strong></p><p style='margin: 8px 0 0; color: #92400e;'>{virtual_instructions}</p></div>" if virtual_instructions else "") +
-                """
-                </div>
-                """ if virtual_meeting_url else ""}
+                {virtual_meeting_html}
 
                 <!-- QR Code Section -->
                 <div class="qr-section">
