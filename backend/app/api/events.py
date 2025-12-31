@@ -95,8 +95,7 @@ def create_event_reminder(
     if getattr(scheduled_at, "tzinfo", None) is not None:
         scheduled_at = scheduled_at.astimezone(None).replace(tzinfo=None)
 
-    if scheduled_at <= datetime.now():
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="La date du rappel doit être dans le futur")
+    # Pas de validation de date - on peut créer des rappels pour n'importe quelle date
 
     existing = db.query(EventReminder).filter(
         EventReminder.event_id == event_id,
@@ -169,8 +168,7 @@ def update_event_reminder(
     if getattr(scheduled_at, "tzinfo", None) is not None:
         scheduled_at = scheduled_at.astimezone(None).replace(tzinfo=None)
 
-    if scheduled_at <= datetime.now():
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="La date du rappel doit être dans le futur")
+    # Pas de validation de date - on peut modifier les rappels pour n'importe quelle date
 
     reminder.scheduled_at = scheduled_at
     reminder.message = payload.message

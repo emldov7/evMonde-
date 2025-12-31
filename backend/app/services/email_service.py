@@ -138,90 +138,85 @@ def send_registration_confirmation_email(
         virtual_meeting_html = ''.join(parts)
 
     # ÉTAPE 2 : Générer le contenu HTML
-    html_content = f"""
-    <!DOCTYPE html>
-    <html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Confirmation d'inscription</title>
-    <!DOCTYPE html>
-    <html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Confirmation d'inscription</title>
-        <style>
-            body {{
-                font-family: Arial, sans-serif;
-                background-color: #f4f4f4;
-                margin: 0;
-                padding: 0;
-            }}
-            .container {{
-                max-width: 600px;
-                margin: 20px auto;
-                background-color: #ffffff;
-                border-radius: 10px;
-                overflow: hidden;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            }}
-            .header {{
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                color: white;
-                padding: 30px;
-                text-align: center;
-            }}
-            .header h1 {{
-                margin: 0;
-                font-size: 28px;
-            }}
-            .content {{
-                padding: 30px;
-            }}
-            .event-info {{
-                background-color: #f8f9fa;
-                border-left: 4px solid #667eea;
-                padding: 15px;
-                margin: 20px 0;
-            }}
-            .event-info p {{
-                margin: 8px 0;
-                color: #333;
-            }}
-            .qr-section {{
-                text-align: center;
-                margin: 30px 0;
-                padding: 20px;
-                background-color: #f8f9fa;
-                border-radius: 8px;
-            }}
-            .qr-section img {{
-                max-width: 250px;
-                border: 3px solid #667eea;
-                border-radius: 8px;
-                padding: 10px;
-                background-color: white;
-            }}
-            .footer {{
-                background-color: #f8f9fa;
-                padding: 20px;
-                text-align: center;
-                color: #666;
-                font-size: 12px;
-            }}
-            .btn {{
-                display: inline-block;
-                padding: 12px 24px;
-                background-color: #667eea;
-                color: white;
-                text-decoration: none;
-                border-radius: 5px;
-                margin: 10px 0;
-            }}
-        </style>
-    </head>
-            <!-- Header -->
+    html_content = f"""<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation d'inscription</title>
+    <style>
+        body {{
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }}
+        .container {{
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }}
+        .header {{
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }}
+        .header h1 {{
+            margin: 0;
+            font-size: 28px;
+        }}
+        .content {{
+            padding: 30px;
+        }}
+        .event-info {{
+            background-color: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 20px 0;
+        }}
+        .event-info p {{
+            margin: 8px 0;
+            color: #333;
+        }}
+        .qr-section {{
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }}
+        .qr-section img {{
+            max-width: 250px;
+            border: 3px solid #667eea;
+            border-radius: 8px;
+            padding: 10px;
+            background-color: white;
+        }}
+        .footer {{
+            background-color: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+        }}
+        .btn {{
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 10px 0;
+        }}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
             <div class="header">
                 <h1>Inscription confirmée !</h1>
                 <p>Votre billet pour {event_title}</p>
@@ -275,15 +270,14 @@ def send_registration_confirmation_email(
                 </p>
             </div>
 
-            <!-- Footer -->
-            <div class="footer">
-                <p>Cet email a été envoyé automatiquement, merci de ne pas y répondre.</p>
-                <p>&copy; 2025 evMonde - Plateforme de gestion d'événements</p>
-            </div>
+        <!-- Footer -->
+        <div class="footer">
+            <p>Cet email a été envoyé automatiquement, merci de ne pas y répondre.</p>
+            <p>&copy; 2025 evMonde - Plateforme de gestion d'événements</p>
         </div>
-    </body>
-    </html>
-    """
+    </div>
+</body>
+</html>"""
 
     # ÉTAPE 2 : Envoyer l'email avec le QR code en pièce jointe
     subject = f"Votre billet pour {event_title}"
