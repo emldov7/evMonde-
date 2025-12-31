@@ -20,7 +20,8 @@ import {
   FaGlobe,
   FaUserTie,
   FaUsers,
-  FaCheck
+  FaCheck,
+  FaHome
 } from 'react-icons/fa';
 import { showSuccess, showError } from '../../utils/toast';
 import { register as registerUser } from '../../api/auth';
@@ -179,6 +180,36 @@ function Register() {
             </div>
             <h1 className="register-brand-name">evMonde</h1>
             <p className="register-brand-tagline">Rejoignez notre communauté</p>
+            <Link
+              to="/events"
+              className="register-events-link"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                marginTop: '1rem',
+                padding: '0.75rem 1.5rem',
+                background: 'rgba(255, 255, 255, 0.2)',
+                color: 'white',
+                borderRadius: '8px',
+                textDecoration: 'none',
+                fontSize: '0.95rem',
+                fontWeight: '500',
+                transition: 'all 0.3s ease',
+                border: '1px solid rgba(255, 255, 255, 0.3)',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.3)';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+            >
+              <FaHome />
+              Voir les événements
+            </Link>
           </div>
 
           {/* Benefits */}

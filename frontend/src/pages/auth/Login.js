@@ -9,7 +9,7 @@
 
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { FaEnvelope, FaLock, FaEye, FaEyeSlash, FaCalendarAlt, FaArrowRight, FaUsers, FaGlobe, FaShieldAlt } from 'react-icons/fa';
+import { FaEnvelope, FaLock, FaEye, FaEyeSlash, FaCalendarAlt, FaArrowRight, FaUsers, FaGlobe, FaShieldAlt, FaHome } from 'react-icons/fa';
 import { login } from '../../api/auth';
 import { showSuccess, showError } from '../../utils/toast';
 import './Login.css';
@@ -92,6 +92,36 @@ function Login() {
             </div>
             <h1 className="login-brand-name">evMonde</h1>
             <p className="login-brand-tagline">Plateforme de Gestion d'Événements</p>
+            <Link
+              to="/events"
+              className="login-events-link"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                marginTop: '1rem',
+                padding: '0.75rem 1.5rem',
+                background: 'rgba(255, 255, 255, 0.2)',
+                color: 'white',
+                borderRadius: '8px',
+                textDecoration: 'none',
+                fontSize: '0.95rem',
+                fontWeight: '500',
+                transition: 'all 0.3s ease',
+                border: '1px solid rgba(255, 255, 255, 0.3)',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.3)';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+            >
+              <FaHome />
+              Voir les événements
+            </Link>
           </div>
 
           {/* Features */}
