@@ -41,7 +41,7 @@ def send_email(
 
     # ÉTAPE 1 : Vérifier la configuration SMTP
     if not settings.SMTP_HOST or not settings.SMTP_USER or not settings.SMTP_PASSWORD:
-        print("⚠️ Configuration SMTP manquante. Emails désactivés.")
+        print("Configuration SMTP manquante. Emails désactivés.")
         return False
 
     try:
@@ -74,11 +74,11 @@ def send_email(
             server.login(settings.SMTP_USER, settings.SMTP_PASSWORD)
             server.send_message(message)
 
-        print(f"✅ Email envoyé à {to_email}")
+        print(f"Email envoyé à {to_email}")
         return True
 
     except Exception as e:
-        print(f"❌ Erreur lors de l'envoi de l'email à {to_email}: {e}")
+        print(f"Erreur lors de l'envoi de l'email à {to_email}: {e}")
         return False
 
 
@@ -213,27 +213,27 @@ def send_registration_confirmation_email(
 
                 <!-- Event Info -->
                 <div class="event-info">
-                    <p><strong>📅 Date :</strong> {event_date}</p>
-                    {"<p><strong>📍 Lieu :</strong> " + event_location + "</p>" if event_location else ""}
-                    {"<p><strong>💻 Format :</strong> Événement " + ("virtuel" if event_format == "virtual" else "hybride (en ligne + sur place)") + "</p>" if event_format in ["virtual", "hybrid"] else ""}
+                    <p><strong>Date :</strong> {event_date}</p>
+                    {"<p><strong>Lieu :</strong> " + event_location + "</p>" if event_location else ""}
+                    {"<p><strong>Format :</strong> Événement " + ("virtuel" if event_format == "virtual" else "hybride (en ligne + sur place)") + "</p>" if event_format in ["virtual", "hybrid"] else ""}
                 </div>
 
                 <!-- Virtual Meeting Info -->
                 {"""
                 <div style="margin: 20px 0; padding: 20px; background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(147, 51, 234, 0.1) 100%); border-radius: 10px; border: 2px solid #3b82f6;">
-                    <h3 style="margin-top: 0; color: #1e40af;">🌐 Informations de connexion</h3>
+                    <h3 style="margin-top: 0; color: #1e40af;">Informations de connexion</h3>
                     """ + (f"<p><strong>Plateforme :</strong> {virtual_platform.replace('_', ' ').title()}</p>" if virtual_platform else "") +
-                    (f"<p><strong>🔗 Lien de la réunion :</strong><br><a href='{virtual_meeting_url}' style='color: #2563eb; word-break: break-all;'>{virtual_meeting_url}</a></p>" if virtual_meeting_url else "") +
-                    (f"<p><strong>🔑 ID de la réunion :</strong> {virtual_meeting_id}</p>" if virtual_meeting_id else "") +
-                    (f"<p><strong>🔒 Mot de passe :</strong> <code style='background: #f3f4f6; padding: 4px 8px; border-radius: 4px; font-family: monospace;'>{virtual_meeting_password}</code></p>" if virtual_meeting_password else "") +
-                    (f"<div style='margin-top: 15px; padding: 12px; background: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 4px;'><p style='margin: 0; color: #92400e;'><strong>📋 Instructions :</strong></p><p style='margin: 8px 0 0; color: #92400e;'>{virtual_instructions}</p></div>" if virtual_instructions else "") +
+                    (f"<p><strong>Lien de la réunion :</strong><br><a href='{virtual_meeting_url}' style='color: #2563eb; word-break: break-all;'>{virtual_meeting_url}</a></p>" if virtual_meeting_url else "") +
+                    (f"<p><strong>ID de la réunion :</strong> {virtual_meeting_id}</p>" if virtual_meeting_id else "") +
+                    (f"<p><strong>Mot de passe :</strong> <code style='background: #f3f4f6; padding: 4px 8px; border-radius: 4px; font-family: monospace;'>{virtual_meeting_password}</code></p>" if virtual_meeting_password else "") +
+                    (f"<div style='margin-top: 15px; padding: 12px; background: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 4px;'><p style='margin: 0; color: #92400e;'><strong>Instructions :</strong></p><p style='margin: 8px 0 0; color: #92400e;'>{virtual_instructions}</p></div>" if virtual_instructions else "") +
                 """
                 </div>
                 """ if virtual_meeting_url else ""}
 
                 <!-- QR Code Section -->
                 <div class="qr-section">
-                    <h2>🎫 Votre billet électronique</h2>
+                    <h2>Votre billet électronique</h2>
                     <p>Présentez ce QR code à l'entrée de l'événement</p>
                     <img src="{qr_code_url}" alt="QR Code du billet">
                     <p style="margin-top: 15px; color: #666; font-size: 14px;">
@@ -244,7 +244,7 @@ def send_registration_confirmation_email(
 
                 <!-- Instructions -->
                 <div style="margin-top: 30px; padding: 15px; background-color: #fff3cd; border-left: 4px solid #ffc107; border-radius: 4px;">
-                    <p style="margin: 0; color: #856404;"><strong>⚠️ Instructions importantes :</strong></p>
+                    <p style="margin: 0; color: #856404;"><strong>Instructions importantes :</strong></p>
                     <ul style="color: #856404; margin: 10px 0;">
                         <li>Gardez ce email précieusement</li>
                         <li>Arrivez 15 minutes avant le début</li>
@@ -274,7 +274,7 @@ def send_registration_confirmation_email(
     """
 
     # ÉTAPE 2 : Envoyer l'email avec le QR code en pièce jointe
-    subject = f"🎫 Votre billet pour {event_title}"
+    subject = f"Votre billet pour {event_title}"
 
     return send_email(
         to_email=to_email,
@@ -303,7 +303,7 @@ def send_organizer_new_registration_email(
     <body style="font-family: Arial, sans-serif; background:#f4f4f4; margin:0; padding:0;">
         <div style="max-width:600px; margin:20px auto; background:#fff; border-radius:10px; overflow:hidden; box-shadow:0 4px 6px rgba(0,0,0,0.1);">
             <div style="background:linear-gradient(135deg,#10b981 0%,#059669 100%); color:#fff; padding:24px;">
-                <h2 style="margin:0;">✅ Nouvelle inscription</h2>
+                <h2 style="margin:0;">Nouvelle inscription</h2>
                 <p style="margin:8px 0 0; opacity:0.95;">{event_title}</p>
             </div>
             <div style="padding:24px; color:#111827;">
@@ -321,5 +321,5 @@ def send_organizer_new_registration_email(
     </html>
     """
 
-    subject = f"✅ Nouvelle inscription - {event_title}"
+    subject = f"Nouvelle inscription - {event_title}"
     return send_email(to_email=to_email, subject=subject, html_content=html_content)
