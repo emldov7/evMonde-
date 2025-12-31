@@ -215,67 +215,51 @@ def send_registration_confirmation_email(
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-            <div class="header">
-                <h1>Inscription confirmée !</h1>
-                <p>Votre billet pour {event_title}</p>
-            </div>
-
-            <!-- Content -->
-            <div class="content">
-                <p>Bonjour <strong>{participant_name}</strong>,</p>
-
-                <p>Félicitations ! Votre inscription à l'événement <strong>{event_title}</strong> a été confirmée avec succès.</p>
-
-                <!-- Event Info -->
-                <div class="event-info">
-                    <p><strong>Date :</strong> {event_date}</p>
-                    {"<p><strong>Lieu :</strong> " + event_location + "</p>" if event_location else ""}
-                    {"<p><strong>Format :</strong> Événement " + ("virtuel" if event_format == "virtual" else "hybride (en ligne + sur place)") + "</p>" if event_format in ["virtual", "hybrid"] else ""}
-                </div>
-
-                <!-- Virtual Meeting Info -->
-                {virtual_meeting_html}
-
-                <!-- QR Code Section -->
-                <div class="qr-section">
-                    <h2>Votre billet électronique</h2>
-                    <p>Présentez ce QR code à l'entrée de l'événement</p>
-                    <img src="{qr_code_url}" alt="QR Code du billet">
-                    <p style="margin-top: 15px; color: #666; font-size: 14px;">
-                        <strong>Important :</strong> Ce QR code est unique et ne peut être utilisé qu'une seule fois.
-                        <br>Ne le partagez avec personne.
-                    </p>
-                </div>
-
-                <!-- Instructions -->
-                <div style="margin-top: 30px; padding: 15px; background-color: #fff3cd; border-left: 4px solid #ffc107; border-radius: 4px;">
-                    <p style="margin: 0; color: #856404;"><strong>Instructions importantes :</strong></p>
-                    <ul style="color: #856404; margin: 10px 0;">
-                        <li>Gardez ce email précieusement</li>
-                        <li>Arrivez 15 minutes avant le début</li>
-                        <li>Présentez votre QR code à l'entrée</li>
-                        {"<li>Pour les événements virtuels, utilisez le lien ci-dessus</li>" if event_format == "virtual" else ""}
-                    </ul>
-                </div>
-
-                <p style="margin-top: 30px;">
-                    Nous avons hâte de vous voir à l'événement !
-                </p>
-
-                <p>
-                    Cordialement,<br>
-                    <strong>L'équipe evMonde</strong>
-                </p>
-            </div>
-
-        <!-- Footer -->
-        <div class="footer">
-            <p>Cet email a été envoyé automatiquement, merci de ne pas y répondre.</p>
-            <p>&copy; 2025 evMonde - Plateforme de gestion d'événements</p>
-        </div>
+<div class="container">
+    <div class="header">
+        <h1>Inscription confirmée !</h1>
+        <p>Votre billet pour {event_title}</p>
     </div>
+    <div class="content">
+        <p>Bonjour <strong>{participant_name}</strong>,</p>
+        <p>Félicitations ! Votre inscription à l'événement <strong>{event_title}</strong> a été confirmée avec succès.</p>
+        <div class="event-info">
+            <p><strong>Date :</strong> {event_date}</p>
+            {"<p><strong>Lieu :</strong> " + event_location + "</p>" if event_location else ""}
+            {"<p><strong>Format :</strong> Événement " + ("virtuel" if event_format == "virtual" else "hybride (en ligne + sur place)") + "</p>" if event_format in ["virtual", "hybrid"] else ""}
+        </div>
+        {virtual_meeting_html}
+        <div class="qr-section">
+            <h2>Votre billet électronique</h2>
+            <p>Présentez ce QR code à l'entrée de l'événement</p>
+            <img src="{qr_code_url}" alt="QR Code du billet">
+            <p style="margin-top: 15px; color: #666; font-size: 14px;">
+                <strong>Important :</strong> Ce QR code est unique et ne peut être utilisé qu'une seule fois.
+                <br>Ne le partagez avec personne.
+            </p>
+        </div>
+        <div style="margin-top: 30px; padding: 15px; background-color: #fff3cd; border-left: 4px solid #ffc107; border-radius: 4px;">
+            <p style="margin: 0; color: #856404;"><strong>Instructions importantes :</strong></p>
+            <ul style="color: #856404; margin: 10px 0;">
+                <li>Gardez ce email précieusement</li>
+                <li>Arrivez 15 minutes avant le début</li>
+                <li>Présentez votre QR code à l'entrée</li>
+                {"<li>Pour les événements virtuels, utilisez le lien ci-dessus</li>" if event_format == "virtual" else ""}
+            </ul>
+        </div>
+        <p style="margin-top: 30px;">
+            Nous avons hâte de vous voir à l'événement !
+        </p>
+        <p>
+            Cordialement,<br>
+            <strong>L'équipe evMonde</strong>
+        </p>
+    </div>
+    <div class="footer">
+        <p>Cet email a été envoyé automatiquement, merci de ne pas y répondre.</p>
+        <p>&copy; 2025 evMonde - Plateforme de gestion d'événements</p>
+    </div>
+</div>
 </body>
 </html>"""
 

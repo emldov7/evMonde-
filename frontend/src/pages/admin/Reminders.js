@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaBell, FaTrash, FaEye } from 'react-icons/fa';
+import { FaBell, FaTrash, FaEye, FaHome } from 'react-icons/fa';
 import LayoutAdmin from '../../components/admin/LayoutAdmin';
 import api from '../../api/api';
 import { showLoading, updateToSuccess, updateToError } from '../../utils/toast';
@@ -64,6 +64,14 @@ function Reminders() {
             <h1 className="admin-page-title">Mes rappels</h1>
             <p className="admin-page-subtitle">Gérez les rappels programmés sur vos événements</p>
           </div>
+          <button
+            className="admin-btn admin-btn-secondary"
+            onClick={() => navigate('/admin/dashboard')}
+            style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+          >
+            <FaHome />
+            Retour à l'accueil
+          </button>
         </div>
       </div>
 
