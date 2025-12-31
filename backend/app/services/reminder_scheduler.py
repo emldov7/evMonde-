@@ -101,13 +101,13 @@ def process_due_event_reminders() -> None:
     db: Session = SessionLocal()
     try:
         now = datetime.now()
-        grace = now - timedelta(minutes=2)
 
+        # Récupère TOUS les rappels non envoyés dont la date est passée
+        # Peu importe depuis combien de temps (pas de limite de 2 minutes)
         reminders = (
             db.query(EventReminder)
             .filter(EventReminder.sent == False)
             .filter(EventReminder.scheduled_at <= now)
-            .filter(EventReminder.scheduled_at >= grace)
             .order_by(EventReminder.scheduled_at.asc())
             .all()
         )
