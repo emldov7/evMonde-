@@ -16,7 +16,7 @@ from app.models.ticket import Ticket
 from app.models.registration import Registration
 from app.models.payout import Payout
 from app.models.commission import CommissionSettings, CommissionTransaction
-from app.models.installment import InstallmentPlan, Installment, InstallmentPlanStatus, InstallmentStatus
+#from app.models.installment import InstallmentPlan, Installment, InstallmentPlanStatus, InstallmentStatus
 
 __all__ = [
     "User",
@@ -28,9 +28,9 @@ __all__ = [
     "Payout",
     "CommissionSettings",
     "CommissionTransaction",
-    "InstallmentPlan",
+# #     "InstallmentPlan",
     "Installment",
-    "InstallmentPlanStatus",
+# #     "InstallmentPlanStatus",
     "InstallmentStatus",
     "event_tags"
 ]

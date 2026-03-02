@@ -29,7 +29,7 @@ from app.models import ticket  # Importer le modèle Ticket
 from app.models import notification_preferences  # Importer le modèle NotificationPreferences
 from app.models import notification  # Importer le modèle Notification (in-app)
 from app.models import event_reminder  # Importer le modèle EventReminder
-from app.models import installment  # Importer les modèles InstallmentPlan et Installment
+#from app.models import installment  # Importer les modèles InstallmentPlan et Installment
 
 # Créer toutes les tables dans PostgreSQL
 # Cette ligne crée automatiquement toutes les tables définies dans nos modèles

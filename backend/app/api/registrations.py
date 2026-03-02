@@ -1028,35 +1028,35 @@ def confirm_payment(
     # ═══════════════════════════════════════════════════════════════
     # VÉRIFICATION CRITIQUE: Paiement par tranches
     # ═══════════════════════════════════════════════════════════════
-    from app.models.installment import InstallmentPlan, InstallmentPlanStatus
+#    from app.models.installment import InstallmentPlan, InstallmentPlanStatus
 
     # Vérifier si cette inscription a un plan de paiement par tranches
-    installment_plan = db.query(InstallmentPlan).filter(
-        InstallmentPlan.registration_id == registration.id
-    ).first()
-
-    if installment_plan:
-        print(f"🚨 PAIEMENT PAR TRANCHES DÉTECTÉ pour registration #{registration.id}")
-        print(f"   Plan ID: {installment_plan.id}")
-        print(f"   Tranches payées: {installment_plan.installments_paid}/{installment_plan.number_of_installments}")
-        print(f"   Montant payé: {installment_plan.amount_paid}/{installment_plan.total_amount}")
-        print(f"   Statut du plan: {installment_plan.status}")
-
-        # Si le plan n'est pas COMPLET, NE PAS confirmer l'inscription
-        if installment_plan.status != InstallmentPlanStatus.COMPLETED:
-            print(f"❌ REFUS DE CONFIRMATION: Le plan de paiement n'est pas complet")
-            print(f"   Restant: {installment_plan.installments_remaining} tranche(s)")
-            print(f"   Montant restant: {installment_plan.amount_remaining / 100} {installment_plan.currency}")
-
-            # Garder le statut PENDING
-            return ConfirmPaymentResponse(
-                success=True,
-                message=f"Premier paiement reçu ({installment_plan.installments_paid}/{installment_plan.number_of_installments}). "
-                        f"Le billet sera envoyé après le paiement complet.",
-                registration_id=registration.id,
-                qr_code_url=None,  # Pas de QR code tant que pas payé en totalité
-                email_sent=False
-            )
+#     installment_plan = db.query(InstallmentPlan).filter(
+#         InstallmentPlan.registration_id == registration.id
+#     ).first()
+# 
+#     if installment_plan:
+#         print(f"🚨 PAIEMENT PAR TRANCHES DÉTECTÉ pour registration #{registration.id}")
+#         print(f"   Plan ID: {installment_plan.id}")
+#         print(f"   Tranches payées: {installment_plan.installments_paid}/{installment_plan.number_of_installments}")
+#         print(f"   Montant payé: {installment_plan.amount_paid}/{installment_plan.total_amount}")
+#         print(f"   Statut du plan: {installment_plan.status}")
+# 
+#         # Si le plan n'est pas COMPLET, NE PAS confirmer l'inscription
+#         if installment_plan.status != InstallmentPlanStatus.COMPLETED:
+#             print(f"❌ REFUS DE CONFIRMATION: Le plan de paiement n'est pas complet")
+#             print(f"   Restant: {installment_plan.installments_remaining} tranche(s)")
+#             print(f"   Montant restant: {installment_plan.amount_remaining / 100} {installment_plan.currency}")
+# 
+#             # Garder le statut PENDING
+#             return ConfirmPaymentResponse(
+#                 success=True,
+#                 message=f"Premier paiement reçu ({installment_plan.installments_paid}/{installment_plan.number_of_installments}). "
+#                         f"Le billet sera envoyé après le paiement complet.",
+#                 registration_id=registration.id,
+#                 qr_code_url=None,  # Pas de QR code tant que pas payé en totalité
+#                 email_sent=False
+#             )
 
         # Si le plan est COMPLET, continuer avec la confirmation normale
         print(f"✅ Plan de paiement COMPLET - Confirmation autorisée")
@@ -1625,7 +1625,7 @@ def get_event_registrations(
     ).order_by(Registration.created_at.desc()).all()
 
     # Convertir les objets en dictionnaires pour Pydantic + infos installment
-    from app.models.installment import InstallmentPlan, Installment
+#    from app.models.installment import InstallmentPlan, Installment
 
     result = []
     for reg in registrations:
@@ -1664,33 +1664,33 @@ def get_event_registrations(
         # ═══════════════════════════════════════════════════════════════
         # NOUVEAU: Ajouter les infos de paiement par tranches si applicable
         # ═══════════════════════════════════════════════════════════════
-        installment_plan = db.query(InstallmentPlan).filter(
-            InstallmentPlan.registration_id == reg.id
-        ).first()
-
-        if installment_plan:
-            # Récupérer la prochaine tranche due
-            from app.models.installment import InstallmentStatus as InstStatus
-            next_installment = db.query(Installment).filter(
-                Installment.plan_id == installment_plan.id,
-                Installment.status == InstStatus.PENDING
-            ).order_by(Installment.due_date.asc()).first()
-
-            reg_dict["installment_plan"] = {
-                "plan_id": installment_plan.id,
-                "total_amount": installment_plan.total_amount,
-                "amount_paid": installment_plan.amount_paid,
-                "amount_remaining": installment_plan.amount_remaining,
-                "number_of_installments": installment_plan.number_of_installments,
-                "installments_paid": installment_plan.installments_paid,
-                "installments_remaining": installment_plan.installments_remaining,
-                "status": str(installment_plan.status.value) if hasattr(installment_plan.status, 'value') else str(installment_plan.status),
-                "next_payment_date": next_installment.due_date.isoformat() if next_installment else None,
-                "next_payment_amount": next_installment.amount if next_installment else None,
-                "currency": installment_plan.currency
-            }
-        else:
-            reg_dict["installment_plan"] = None
+#         installment_plan = db.query(InstallmentPlan).filter(
+#             InstallmentPlan.registration_id == reg.id
+#         ).first()
+# 
+#         if installment_plan:
+#             # Récupérer la prochaine tranche due
+# #            from app.models.installment import InstallmentStatus as InstStatus
+#             next_installment = db.query(Installment).filter(
+#                 Installment.plan_id == installment_plan.id,
+#                 Installment.status == InstStatus.PENDING
+#             ).order_by(Installment.due_date.asc()).first()
+# 
+#             reg_dict["installment_plan"] = {
+#                 "plan_id": installment_plan.id,
+#                 "total_amount": installment_plan.total_amount,
+#                 "amount_paid": installment_plan.amount_paid,
+#                 "amount_remaining": installment_plan.amount_remaining,
+#                 "number_of_installments": installment_plan.number_of_installments,
+#                 "installments_paid": installment_plan.installments_paid,
+#                 "installments_remaining": installment_plan.installments_remaining,
+#                 "status": str(installment_plan.status.value) if hasattr(installment_plan.status, 'value') else str(installment_plan.status),
+#                 "next_payment_date": next_installment.due_date.isoformat() if next_installment else None,
+#                 "next_payment_amount": next_installment.amount if next_installment else None,
+#                 "currency": installment_plan.currency
+#             }
+#         else:
+#             reg_dict["installment_plan"] = None
 
         result.append(reg_dict)
 

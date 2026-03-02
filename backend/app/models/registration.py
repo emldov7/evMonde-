@@ -242,8 +242,8 @@ class Registration(Base):
     # Relation avec Ticket (un ticket peut avoir plusieurs inscriptions)
     ticket = relationship("Ticket", back_populates="registrations")
 
-    # Relation avec InstallmentPlan (une registration peut avoir un plan de paiement par tranches)
-    installment_plan = relationship("InstallmentPlan", back_populates="registration", uselist=False, cascade="all, delete-orphan")
+#     # Relation avec InstallmentPlan (une registration peut avoir un plan de paiement par tranches)
+# #     installment_plan = relationship("InstallmentPlan", back_populates="registration", uselist=False, cascade="all, delete-orphan")
 
     def __repr__(self):
         """Représentation en string pour le debugging"""

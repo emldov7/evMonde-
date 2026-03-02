@@ -286,7 +286,7 @@ class Event(Base):
     tickets = relationship("Ticket", back_populates="event", cascade="all, delete-orphan")
 
     # RELATION 6 : Lien vers les plans de paiement par tranches (One-to-Many)
-    installment_plans = relationship("InstallmentPlan", back_populates="event", cascade="all, delete-orphan")
+#     installment_plans = relationship("InstallmentPlan", back_populates="event", cascade="all, delete-orphan")
 
 
 # IMPORTANT : On doit aussi ajouter la relation inverse dans le modèle User

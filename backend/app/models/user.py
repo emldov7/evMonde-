@@ -197,18 +197,18 @@ class User(Base):
     # back_populates : Permet d'accéder à l'utilisateur depuis une inscription
 
     # RELATION 3 : Plans de paiement par tranches organisés par cet utilisateur (en tant qu'organisateur)
-    organized_installment_plans = relationship(
-        "InstallmentPlan",
-        foreign_keys="InstallmentPlan.organizer_id",
-        back_populates="organizer"
-    )
-
-    # RELATION 4 : Plans de paiement par tranches de cet utilisateur (en tant qu'acheteur)
-    user_installment_plans = relationship(
-        "InstallmentPlan",
-        foreign_keys="InstallmentPlan.user_id",
-        back_populates="user"
-    )
+#     organized_installment_plans = relationship(
+#         "InstallmentPlan",
+#         foreign_keys="InstallmentPlan.organizer_id",
+#         back_populates="organizer"
+#     )
+# 
+#     # RELATION 4 : Plans de paiement par tranches de cet utilisateur (en tant qu'acheteur)
+#     user_installment_plans = relationship(
+#         "InstallmentPlan",
+#         foreign_keys="InstallmentPlan.user_id",
+#         back_populates="user"
+#     )
 
 
     def __repr__(self):  # Quand on fait print(users), on voit l'utilisateur et son role, tres utilie pour nous
