@@ -111,6 +111,9 @@ function Registrations() {
   };
 
   const getStatusBadge = (status) => {
+    // Normaliser le statut en minuscules pour comparaison
+    const normalizedStatus = status?.toLowerCase();
+
     const styles = {
       confirmed: 'bg-green-100 text-green-700',
       pending: 'bg-yellow-100 text-yellow-700',
@@ -124,8 +127,8 @@ function Registrations() {
     };
 
     return (
-      <span className={`px-2 py-1 rounded text-xs font-semibold ${styles[status] || styles.pending}`}>
-        {labels[status] || status}
+      <span className={`px-2 py-1 rounded text-xs font-semibold ${styles[normalizedStatus] || styles.pending}`}>
+        {labels[normalizedStatus] || status}
       </span>
     );
   };
@@ -340,6 +343,7 @@ function Registrations() {
                                   <th>Téléphone</th>
                                   <th>Date</th>
                                   <th>Statut</th>
+                                  <th>Paiement</th>
                                   <th>Type</th>
                                 </tr>
                               </thead>
@@ -357,6 +361,24 @@ function Registrations() {
                                     <td>{reg.user_phone || reg.guest_phone || 'N/A'}</td>
                                     <td>{formatDate(reg.registration_date || reg.created_at)}</td>
                                     <td>{getStatusBadge(reg.status)}</td>
+                                    <td>
+                                      {reg.installment_plan ? (
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                                          <span className="admin-badge admin-badge-warning" style={{ fontSize: '0.75rem' }}>
+                                            Paiement {reg.installment_plan.installments_paid}/{reg.installment_plan.number_of_installments}
+                                          </span>
+                                          {reg.installment_plan.next_payment_date && (
+                                            <span style={{ fontSize: '0.7rem', color: '#64748b' }}>
+                                              Prochain: {new Date(reg.installment_plan.next_payment_date).toLocaleDateString('fr-FR')}
+                                            </span>
+                                          )}
+                                        </div>
+                                      ) : (
+                                        <span className="admin-badge admin-badge-success" style={{ fontSize: '0.75rem' }}>
+                                          Paiement unique
+                                        </span>
+                                      )}
+                                    </td>
                                     <td>
                                       <span className={`admin-badge ${reg.registration_type === 'user' ? 'admin-badge-primary' : 'admin-badge-gray'}`}>
                                         {reg.registration_type === 'user' ? 'Compte' : 'Invité'}

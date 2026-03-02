@@ -313,3 +313,245 @@ def send_organizer_new_registration_email(
 
     subject = f"Nouvelle inscription - {event_title}"
     return send_email(to_email=to_email, subject=subject, html_content=html_content)
+
+
+def send_installment_initial_confirmation_email(
+    to_email: str,
+    participant_name: str,
+    event_title: str,
+    event_date: str,
+    event_location: Optional[str],
+    event_format: str,
+    total_amount: float,
+    currency: str,
+    installments_paid: int,
+    number_of_installments: int,
+    next_payment_date: str,
+    next_payment_amount: float,
+    virtual_meeting_url: Optional[str] = None,
+    virtual_meeting_id: Optional[str] = None,
+    virtual_meeting_password: Optional[str] = None,
+    virtual_platform: Optional[str] = None,
+    virtual_instructions: Optional[str] = None
+) -> bool:
+    """
+    Envoyer un email de confirmation initiale pour un paiement par tranches
+
+    Cet email est envoyé après le PREMIER paiement d'un plan par tranches.
+    Il INFORME l'utilisateur de son inscription mais NE CONTIENT PAS de QR code.
+    Le QR code sera envoyé uniquement après le paiement complet.
+
+    Args:
+        to_email: Email du participant
+        participant_name: Nom complet du participant
+        event_title: Titre de l'événement
+        event_date: Date formatée de l'événement
+        event_location: Lieu (si physique/hybride)
+        event_format: Format (physical, virtual, hybrid)
+        total_amount: Montant total en devise
+        currency: Devise (USD, CAD, EUR, etc.)
+        installments_paid: Nombre de tranches déjà payées
+        number_of_installments: Nombre total de tranches
+        next_payment_date: Date du prochain prélèvement
+        next_payment_amount: Montant du prochain prélèvement
+        virtual_meeting_url: Lien de la réunion virtuelle (optionnel)
+        virtual_meeting_id: ID de la réunion (optionnel)
+        virtual_meeting_password: Mot de passe de la réunion (optionnel)
+        virtual_platform: Plateforme (zoom, google_meet, etc.)
+        virtual_instructions: Instructions pour rejoindre (optionnel)
+
+    Returns:
+        bool: True si envoyé, False sinon
+    """
+
+    # Construire le bloc HTML pour virtual meeting (si applicable)
+    virtual_meeting_html = ""
+    if virtual_meeting_url:
+        parts = []
+        parts.append('<div style="margin: 20px 0; padding: 20px; background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(147, 51, 234, 0.1) 100%); border-radius: 10px; border: 2px solid #3b82f6;">')
+        parts.append('<h3 style="margin-top: 0; color: #1e40af;">Informations de connexion</h3>')
+        if virtual_platform:
+            parts.append(f"<p><strong>Plateforme :</strong> {virtual_platform.replace('_', ' ').title()}</p>")
+        parts.append(f"<p><strong>Lien de la réunion :</strong><br><a href='{virtual_meeting_url}' style='color: #2563eb; word-break: break-all;'>{virtual_meeting_url}</a></p>")
+        if virtual_meeting_id:
+            parts.append(f"<p><strong>ID de la réunion :</strong> {virtual_meeting_id}</p>")
+        if virtual_meeting_password:
+            parts.append(f"<p><strong>Mot de passe :</strong> <code style='background: #f3f4f6; padding: 4px 8px; border-radius: 4px; font-family: monospace;'>{virtual_meeting_password}</code></p>")
+        if virtual_instructions:
+            parts.append(f"<div style='margin-top: 15px; padding: 12px; background: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 4px;'><p style='margin: 0; color: #92400e;'><strong>Instructions :</strong></p><p style='margin: 8px 0 0; color: #92400e;'>{virtual_instructions}</p></div>")
+        parts.append('</div>')
+        virtual_meeting_html = ''.join(parts)
+
+    html_content = f"""<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription confirmée - Paiement par tranches</title>
+    <style>
+        body {{
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }}
+        .container {{
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }}
+        .header {{
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }}
+        .header h1 {{
+            margin: 0;
+            font-size: 28px;
+        }}
+        .content {{
+            padding: 30px;
+        }}
+        .event-info {{
+            background-color: #f8f9fa;
+            border-left: 4px solid #f59e0b;
+            padding: 15px;
+            margin: 20px 0;
+        }}
+        .event-info p {{
+            margin: 8px 0;
+            color: #333;
+        }}
+        .payment-info {{
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.1) 100%);
+            border: 2px solid #f59e0b;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }}
+        .payment-info h3 {{
+            margin-top: 0;
+            color: #d97706;
+        }}
+        .payment-progress {{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 15px 0;
+            padding: 15px;
+            background-color: white;
+            border-radius: 8px;
+        }}
+        .progress-badge {{
+            background-color: #f59e0b;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 16px;
+        }}
+        .next-payment {{
+            background-color: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }}
+        .next-payment strong {{
+            color: #92400e;
+        }}
+        .warning-box {{
+            background-color: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }}
+        .warning-box p {{
+            margin: 5px 0;
+            color: #92400e;
+        }}
+        .footer {{
+            background-color: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+        }}
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🎫 Inscription en cours</h1>
+        <p>Paiement par tranches pour {event_title}</p>
+    </div>
+    <div class="content">
+        <p>Bonjour <strong>{participant_name}</strong>,</p>
+        <p>Votre inscription à l'événement <strong>{event_title}</strong> a bien été enregistrée !</p>
+
+        <div class="event-info">
+            <p><strong>📅 Date :</strong> {event_date}</p>
+            {"<p><strong>📍 Lieu :</strong> " + event_location + "</p>" if event_location else ""}
+            {"<p><strong>💻 Format :</strong> Événement " + ("virtuel" if event_format == "virtual" else "hybride (en ligne + sur place)") + "</p>" if event_format in ["virtual", "hybrid"] else ""}
+        </div>
+
+        {virtual_meeting_html}
+
+        <div class="payment-info">
+            <h3>💳 Détails du paiement</h3>
+            <div class="payment-progress">
+                <div>
+                    <p style="margin: 0; font-size: 14px; color: #666;">Progression du paiement</p>
+                    <p style="margin: 5px 0 0; font-size: 24px; font-weight: bold; color: #d97706;">{installments_paid}/{number_of_installments}</p>
+                </div>
+                <div class="progress-badge">
+                    Paiement {installments_paid}/{number_of_installments}
+                </div>
+            </div>
+
+            <p style="margin: 10px 0;"><strong>Montant total :</strong> {total_amount:.2f} {currency}</p>
+            <p style="margin: 10px 0;"><strong>Montant restant :</strong> {total_amount - (total_amount / number_of_installments * installments_paid):.2f} {currency}</p>
+
+            <div class="next-payment">
+                <p style="margin: 0;"><strong>🗓️ Prochain prélèvement :</strong></p>
+                <p style="margin: 5px 0 0; font-size: 16px;"><strong>{next_payment_date}</strong></p>
+                <p style="margin: 5px 0 0;"><strong>Montant :</strong> {next_payment_amount:.2f} {currency}</p>
+            </div>
+        </div>
+
+        <div class="warning-box">
+            <p><strong>⚠️ Important :</strong></p>
+            <p>• Votre billet électronique (QR code) sera généré et envoyé automatiquement après le paiement complet de toutes les tranches.</p>
+            <p>• Les prélèvements seront effectués automatiquement sur votre carte enregistrée.</p>
+            <p>• Vous recevrez une notification par email avant chaque prélèvement.</p>
+            <p>• Assurez-vous que votre carte dispose de fonds suffisants pour éviter tout échec de paiement.</p>
+        </div>
+
+        <p style="margin-top: 30px;">
+            Nous avons hâte de vous voir à l'événement !
+        </p>
+        <p>
+            Cordialement,<br>
+            <strong>L'équipe evMonde</strong>
+        </p>
+    </div>
+    <div class="footer">
+        <p>Cet email a été envoyé automatiquement, merci de ne pas y répondre.</p>
+        <p>&copy; 2025 evMonde - Plateforme de gestion d'événements</p>
+    </div>
+</div>
+</body>
+</html>"""
+
+    subject = f"Inscription confirmée - Paiement {installments_paid}/{number_of_installments} pour {event_title}"
+
+    return send_email(
+        to_email=to_email,
+        subject=subject,
+        html_content=html_content
+    )

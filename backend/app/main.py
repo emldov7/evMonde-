@@ -29,6 +29,7 @@ from app.models import ticket  # Importer le modèle Ticket
 from app.models import notification_preferences  # Importer le modèle NotificationPreferences
 from app.models import notification  # Importer le modèle Notification (in-app)
 from app.models import event_reminder  # Importer le modèle EventReminder
+from app.models import installment  # Importer les modèles InstallmentPlan et Installment
 
 # Créer toutes les tables dans PostgreSQL
 # Cette ligne crée automatiquement toutes les tables définies dans nos modèles
@@ -47,12 +48,14 @@ app = FastAPI(
 
 reminder_scheduler = None
 waitlist_scheduler = None
+# installment_scheduler = None  # ⚠️ DÉSACTIVÉ: Feature en développement
 
 
 @app.on_event("startup")
 def _start_background_schedulers():
     global reminder_scheduler
     global waitlist_scheduler
+    # global installment_scheduler  # ⚠️ DÉSACTIVÉ: Feature en développement
     try:
         from app.services.reminder_scheduler import start_reminder_scheduler
         reminder_scheduler = start_reminder_scheduler()
@@ -65,11 +68,20 @@ def _start_background_schedulers():
     except Exception as e:
         print(f"⚠️ Impossible de démarrer le scheduler de waitlist: {e}")
 
+    # ⚠️ PAIEMENT PAR TRANCHES: DÉSACTIVÉ TEMPORAIREMENT
+    # Cette fonctionnalité est en cours de développement et sera activée dans une version future
+    # try:
+    #     from app.services.installment_scheduler import start_installment_scheduler
+    #     installment_scheduler = start_installment_scheduler()
+    # except Exception as e:
+    #     print(f"⚠️ Impossible de démarrer le scheduler de paiements par tranches: {e}")
+
 
 @app.on_event("shutdown")
 def _shutdown_background_schedulers():
     global reminder_scheduler
     global waitlist_scheduler
+    # global installment_scheduler  # ⚠️ DÉSACTIVÉ: Feature en développement
     try:
         if reminder_scheduler:
             reminder_scheduler.shutdown(wait=False)
@@ -83,6 +95,14 @@ def _shutdown_background_schedulers():
             waitlist_scheduler = None
     except Exception as e:
         print(f"⚠️ Erreur arrêt scheduler de waitlist: {e}")
+
+    # ⚠️ PAIEMENT PAR TRANCHES: DÉSACTIVÉ TEMPORAIREMENT
+    # try:
+    #     if installment_scheduler:
+    #         installment_scheduler.shutdown(wait=False)
+    #         installment_scheduler = None
+    # except Exception as e:
+    #     print(f"⚠️ Erreur arrêt scheduler de paiements par tranches: {e}")
 
 
 # ÉTAPE 2 : Configurer le CORS (Cross-Origin Resource Sharing)
@@ -269,6 +289,18 @@ app.include_router(
     prefix=f"{settings.API_V1_PREFIX}/notifications",  # Routes : /api/v1/notifications/preferences
     tags=["Notifications"]
 )
+
+
+# ÉTAPE 16 : Inclure les routes installments (paiements par tranches)
+# ⚠️ DÉSACTIVÉ TEMPORAIREMENT: Feature en développement
+# Cette fonctionnalité sera activée dans une version future
+# from app.api import installments
+#
+# app.include_router(
+#     installments.router,
+#     prefix=f"{settings.API_V1_PREFIX}/installments",  # Routes : /api/v1/installments
+#     tags=["Installments"]
+# )
 
 
 # Point d'entrée pour lancer l'application avec Uvicorn

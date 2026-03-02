@@ -362,6 +362,23 @@ function EventDetails() {
     return null;
   };
 
+  const getRegistrationStatusBadge = (status) => {
+    // Normaliser le statut en minuscules
+    const normalizedStatus = status?.toLowerCase();
+
+    if (normalizedStatus === 'confirmed') {
+      return <span className="admin-badge admin-badge-published">Confirmé</span>;
+    }
+    if (normalizedStatus === 'pending') {
+      return <span className="admin-badge admin-badge-warning">En attente</span>;
+    }
+    if (normalizedStatus === 'cancelled') {
+      return <span className="admin-badge admin-badge-cancelled">Annulé</span>;
+    }
+
+    return <span className="admin-badge admin-badge-secondary">{status}</span>;
+  };
+
   const getFreeBadge = () => {
     if (!event) return null;
 
@@ -605,7 +622,7 @@ function EventDetails() {
                         <span className="admin-event-meta-item">{formatCurrency(reg.amount_paid || 0, reg.currency || event.currency || 'USD')}</span>
                       </div>
                     </div>
-                    <span className="admin-badge admin-badge-published">Confirmé</span>
+                    {getRegistrationStatusBadge(reg.status)}
                   </div>
                 ))}
 

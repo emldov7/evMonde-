@@ -85,6 +85,9 @@ class Ticket(Base):
     # Lien vers les inscriptions (registrations) pour ce ticket
     registrations = relationship("Registration", back_populates="ticket", cascade="all, delete-orphan")
 
+    # Lien vers les plans de paiement par tranches pour ce ticket
+    installment_plans = relationship("InstallmentPlan", back_populates="ticket", cascade="all, delete-orphan")
+
     # ═══════════════════════════════════════════════════════════════
     # PROPRIÉTÉS CALCULÉES
     # ═══════════════════════════════════════════════════════════════

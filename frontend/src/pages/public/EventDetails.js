@@ -18,6 +18,8 @@ import {
   FaUser
 } from 'react-icons/fa';
 import api from '../../api/api';
+// ⚠️ PAIEMENT PAR TRANCHES: DÉSACTIVÉ TEMPORAIREMENT
+// import { getAllowedInstallmentPlans, createInstallmentRegistration, createGuestInstallmentRegistration } from '../../api/installments';
 import { showError, showSuccess, showLoading, updateToSuccess, updateToError } from '../../utils/toast';
 import PublicNavbar from '../../components/PublicNavbar';
 import '../../styles/components.css';
@@ -34,6 +36,11 @@ function EventDetails() {
   const [pendingRegistration, setPendingRegistration] = useState(null);
 
   const [timeTick, setTimeTick] = useState(0);
+
+  // ⚠️ PAIEMENT PAR TRANCHES: DÉSACTIVÉ TEMPORAIREMENT
+  // const [allowedPlans, setAllowedPlans] = useState(null);
+  // const [selectedPaymentPlan, setSelectedPaymentPlan] = useState('full'); // 'full', '2_payments', '3_payments', '4_payments'
+  // const [loadingPlans, setLoadingPlans] = useState(false);
 
   // Formulaire d'inscription invité
   const [guestData, setGuestData] = useState({
@@ -89,6 +96,12 @@ function EventDetails() {
       if (response.data.tickets && response.data.tickets.length > 0) {
         setSelectedTicket(response.data.tickets[0]);
       }
+
+      // ⚠️ PAIEMENT PAR TRANCHES: DÉSACTIVÉ TEMPORAIREMENT
+      // Charger les plans de paiement autorisés si événement payant
+      // if (!response.data.is_free) {
+      //   fetchAllowedPlans();
+      // }
     } catch (error) {
       console.error('Error fetching event:', error);
       showError('Événement introuvable');
@@ -97,6 +110,21 @@ function EventDetails() {
       setLoading(false);
     }
   };
+
+  // ⚠️ PAIEMENT PAR TRANCHES: DÉSACTIVÉ TEMPORAIREMENT
+  // const fetchAllowedPlans = async () => {
+  //   try {
+  //     setLoadingPlans(true);
+  //     const plans = await getAllowedInstallmentPlans(id);
+  //     setAllowedPlans(plans);
+  //   } catch (error) {
+  //     console.error('Error fetching allowed plans:', error);
+  //     // Si erreur, on permet quand même le paiement complet
+  //     setAllowedPlans({ allowed_plans: ['full'], max_installments: 1 });
+  //   } finally {
+  //     setLoadingPlans(false);
+  //   }
+  // };
 
   const checkAuth = () => {
     const token = localStorage.getItem('token');
@@ -147,13 +175,13 @@ function EventDetails() {
           return;
         }
 
+        // ⚠️ PAIEMENT PAR TRANCHES: DÉSACTIVÉ TEMPORAIREMENT
+        // Paiement complet uniquement
         const response = await api.post(`/api/v1/registrations/events/${id}/register/payment`, {
           ticket_id: selectedTicket.id
         });
 
         updateToSuccess(toastId, 'Redirection vers le paiement...');
-
-        // Rediriger vers Stripe
         window.location.href = response.data.payment_url;
       }
     } catch (error) {
@@ -229,14 +257,14 @@ function EventDetails() {
           return;
         }
 
+        // ⚠️ PAIEMENT PAR TRANCHES: DÉSACTIVÉ TEMPORAIREMENT
+        // Paiement complet uniquement
         const response = await api.post(`/api/v1/registrations/events/${id}/register/guest/payment`, {
           ...guestData,
           ticket_id: selectedTicket.id
         });
 
         updateToSuccess(toastId, 'Redirection vers le paiement...');
-
-        // Rediriger vers Stripe
         window.location.href = response.data.payment_url;
       }
     } catch (error) {
@@ -429,6 +457,8 @@ function EventDetails() {
                 </div>
               )}
 
+              {/* ⚠️ PAIEMENT PAR TRANCHES: DÉSACTIVÉ TEMPORAIREMENT - Code supprimé */}
+
               {/* Formulaire inscription invité */}
               {showRegistrationForm && !isAuthenticated && (
                 <div className="ev-detail-guest-form">
@@ -493,6 +523,8 @@ function EventDetails() {
                       />
                     </div>
                   </div>
+
+                  {/* ⚠️ PAIEMENT PAR TRANCHES: DÉSACTIVÉ TEMPORAIREMENT - Code supprimé */}
 
                   <button onClick={registerGuest} className="ev-btn ev-btn-primary ev-btn-full">
                     Confirmer l'inscription
